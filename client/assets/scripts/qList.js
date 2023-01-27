@@ -2,27 +2,17 @@ const qList = document.getElementById("qList");
 const filters = document.querySelectorAll("#filters button")
 
 async function getQuestions(category) {
-    let res;
-    
-    if(category==='All'){
-        res = await fetch("/questions");
-    }
-    else{
-        res = await fetch(`/questions?category=${category}`);
-    }
+    const url = (category)?`/questions?category=${category}`:"/questions";
+    const res = await fetch(url);
     const data = await res.json();
 
     qList.innerText = "";
-    filters.forEach((b) => {
-        b.className = "";
-    })
-
+    filters.forEach((b) => {b.className = "";})
+    if (!category) category="All";
     const clicked = document.getElementById(category);
     clicked.className = "active";
 
-    data.forEach(q => {
-        makeQuestionCard(q);
-    });
+    data.forEach(q => {makeQuestionCard(q);});
 }
 
 function makeQuestionCard(q) {
@@ -129,4 +119,4 @@ document.querySelector("form").addEventListener("submit", (e) => {
 
 })
 
-getQuestions('All');
+getQuestions();

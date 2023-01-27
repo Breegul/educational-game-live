@@ -16,12 +16,8 @@ app.get('/', (req, res) => {
 })
 
 app.get('/questions', (req, res) => {
-    const { category } = req.query;
-    if (category==undefined) {
-        res.json(questions);
-    } else {
-        res.json(questions.filter(q => q["category"] === category));
-    }
+    const {category} = req.query;
+    category ? res.json(questions.filter(q => q["category"] === category)) : res.json(questions);
 })
 
 app.get('/questions/random', (req, res) => {
